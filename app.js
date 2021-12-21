@@ -37,8 +37,16 @@ exports.GetLink = async (u) => {
     let time;
     let dlurl;
     try {
-        time = /var b = ([0-9]+);$/gm.exec($('#dlbutton').next().html())[1]
-        dlurl = urlori.protocol + '//' + urlori.hostname + '/d/' + key + '/' + (2 + 2 * 2 + parseInt(time)) + '3/DOWNLOAD'
+        // time = /var b = ([0-9]+);$/gm.exec($('#dlbutton').next().html())[1]
+        // dlurl = urlori.protocol + '//' + urlori.hostname + '/d/' + key + '/' + (2 + 2 * 2 + parseInt(time)) + '3/DOWNLOAD'
+        const script = $('#dlbutton').next().html();
+        let n = script.match(/var n = (.*);/)[1].split('%')
+        let b = script.match(/var b = (.*);/)[1].split('%')
+        let z = script.match(/var z = (.*);/)[1]
+        let nt = ( Number(n[0]) % Number(n[1]) )
+        let bt = ( Number(b[0]) % Number(b[1]) )
+        let tall = (nt + bt + Number(z) - 3);
+        dlurl = urlori.protocol + '//' + urlori.hostname + '/d/' + key + '/' + (tall) + '/DOWNLOAD'
     } catch (error) {
         time = _math.evaluate(/ \+ \((.*)\) \+ /gm.exec($('#dlbutton').next().html())[1])
         dlurl = urlori.protocol + '//' + urlori.hostname + '/d/' + key + '/' + (time) + '/DOWNLOAD'
